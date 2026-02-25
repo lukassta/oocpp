@@ -37,12 +37,12 @@ public:
         totalCreatedCount = 0;
     }
 
-    int getCardNumber() {
-        return this->cardNumber;
+    const std::string getCardHolderName() {
+        return this->cardHolderName;
     }
 
-    std::string getCardHolderName() {
-        return this->cardHolderName;
+    int getCardNumber() {
+        return this->cardNumber;
     }
 
     int getEuroCents() {
