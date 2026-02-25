@@ -107,6 +107,7 @@ public:
     Tests(bool verboseOption)
         : verbose(verboseOption) {
         this->testFunctionVector.push_back(unitTest1);
+        this->testFunctionVector.push_back(unitTest2);
     }
 
     bool runTests (std::ostream& oStrm) {
@@ -189,6 +190,58 @@ private:
 
         return isSuccessful;
     }
+
+    static bool unitTest2() {
+        bool isSuccessful = true;
+
+        Card card = Card("John Doe", 7, 89);
+
+        try {
+            card.setEuroCents(-1);
+        }
+        catch(const std::invalid_argument& e) {
+        }
+        check(
+            isSuccessful,
+            card.getEuroCents() == 89
+        );
+
+        try {
+            card.setEuroCents(100);
+        }
+        catch(const std::invalid_argument& e) {
+        }
+        check(
+            isSuccessful,
+            card.getEuroCents() == 89
+        );
+
+
+        card.setEuroCents(50);
+        check(
+            isSuccessful,
+            card.getEuroCents() == 50
+        );
+
+        try {
+            card.setEuros(-1);
+        }
+        catch(const std::invalid_argument& e) {
+        }
+        check(
+            isSuccessful,
+            card.getEuros() == 7
+        );
+
+        card.setEuros(10);
+        check(
+            isSuccessful,
+            card.getEuros() == 10
+        );
+
+        return isSuccessful;
+    }
+
 };
 
 int main(int argc, char *argv[]) {
