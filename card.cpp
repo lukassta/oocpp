@@ -83,9 +83,8 @@ public:
 
     std::string toString() {
         std::stringstream ss;
-        ss << "Card number: " << this->getCardNumber() << "\n";
-        ss << "Card holder: " << this->getCardHolderName() << "\n";
-        ss << "Balance: " << this->getEuros() << "." << this->getEuroCents() << "€\n";
+        ss << this->getCardNumber() << " " << this->getCardHolderName() << " ";
+        ss << this->getEuros() << "." << this->getEuroCents() << "€";
         return ss.str();
     }
 
@@ -186,9 +185,7 @@ private:
         check(
             isSuccessful,
             card.toString() ==
-            "Card number: 1\n"
-            "Card holder: John Doe\n"
-            "Balance: 7.89€\n"
+            "1 John Doe 7.89€"
         );
 
         return isSuccessful;
