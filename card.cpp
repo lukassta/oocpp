@@ -80,7 +80,6 @@ public:
         return ss.str();
     }
 
-
 private:
     static int instanceCount;
     static int totalCreatedCount;
