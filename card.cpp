@@ -108,6 +108,7 @@ public:
         : verbose(verboseOption) {
         this->testFunctionVector.push_back(unitTest1);
         this->testFunctionVector.push_back(unitTest2);
+        this->testFunctionVector.push_back(unitTest3);
     }
 
     bool runTests (std::ostream& oStrm) {
@@ -199,7 +200,7 @@ private:
         try {
             card.setEuroCents(-1);
         }
-        catch(const std::invalid_argument& e) {
+        catch(...) {
         }
         check(
             isSuccessful,
@@ -209,7 +210,7 @@ private:
         try {
             card.setEuroCents(100);
         }
-        catch(const std::invalid_argument& e) {
+        catch(...) {
         }
         check(
             isSuccessful,
@@ -226,7 +227,7 @@ private:
         try {
             card.setEuros(-1);
         }
-        catch(const std::invalid_argument& e) {
+        catch(...) {
         }
         check(
             isSuccessful,
@@ -242,6 +243,55 @@ private:
         return isSuccessful;
     }
 
+    static bool unitTest3() {
+        bool isSuccessful = true;
+
+        Card card = Card("John Doe", 7, 89);
+
+        try {
+            card.setEuroCents(-1);
+
+            // Did not raise exception
+            isSuccessful = false;
+        }
+        catch(const std::invalid_argument& e) {
+            // Got an exception that was excepted, gets a pass
+        }
+        catch(...) {
+            // Got an unexpected exception type
+            isSuccessful = false;
+        }
+
+        try {
+            card.setEuroCents(100);
+
+            // Did not raise exception
+            isSuccessful = false;
+        }
+        catch(const std::invalid_argument& e) {
+            // Got an exception that was excepted, gets a pass
+        }
+        catch(...) {
+            // Got an unexpected exception type
+            isSuccessful = false;
+        }
+
+        try {
+            card.setEuros(-1);
+
+            // Did not raise exception
+            isSuccessful = false;
+        }
+        catch(const std::invalid_argument& e) {
+            // Got an exception that was excepted, gets a pass
+        }
+        catch(...) {
+            // Got an unexpected exception type
+            isSuccessful = false;
+        }
+
+        return isSuccessful;
+    }
 };
 
 int main(int argc, char *argv[]) {
