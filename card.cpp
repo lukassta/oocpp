@@ -10,11 +10,10 @@ public:
     }
 
     Card(std::string cardHolderName, int euros, int cents) 
-        :cardNumber(generateCardNumber()) {
+        :cardHolderName(cardHolderName),
+        cardNumber(generateCardNumber()) {
         setEuroCents(cents);
         setEuros(euros);
-
-        this->cardHolderName = cardHolderName;
 
         this->totalCreatedCount += 1;
         this->instanceCount += 1;
@@ -28,7 +27,7 @@ private:
     static int instanceCount;
     static int totalCreatedCount;
 
-    std::string cardHolderName;
+    const std::string cardHolderName;
     const int cardNumber;
     int euroCents;
     int euros;
@@ -47,7 +46,7 @@ public:
         return totalCreatedCount;
     }
 
-    const std::string getCardHolderName() {
+    std::string getCardHolderName() {
         return this->cardHolderName;
     }
 
