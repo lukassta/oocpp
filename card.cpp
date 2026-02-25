@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 class Card {
 public:
@@ -97,6 +98,103 @@ private:
 int Card::instanceCount = 0;
 int Card::totalCreatedCount = 0;
 
+class Tests {
+public:
+    Tests()
+        : Tests(false) {
+    }
+
+    Tests(bool verboseOption)
+        : verbose(verboseOption) {
+        this->testFunctionVector.push_back(unitTest1);
+    }
+
+    bool runTests (std::ostream& oStrm) {
+        int succeeded = 0, testCount;
+        testCount = testFunctionVector.size();
+
+        for(int i = 0; i < testCount ; i++){
+            Card::resetState();
+
+            if (testFunctionVector[i]()) {
+                oStrm << "Test " << i + 1 << " passed\n";
+                ++succeeded;
+            }
+            else {
+                oStrm << "Test " << i + 1 << " failed\n";
+            }
+
+        }
+        if (succeeded < testCount) {
+            oStrm << "❌ Some tests failed (passed " << succeeded << "/" << testCount << ")\n";
+            return false;
+        }
+
+        oStrm << "✓ All tests passed (passed " << succeeded << "/" << testCount << ")\n";
+        return true;
+    }
+
+private:
+    const bool verbose;
+
+    std::vector<bool (*)()> testFunctionVector;
+
+    static void check(bool& isSuccefulState, bool logicStatement) {
+        isSuccefulState = isSuccefulState && logicStatement;
+    }
+
+    static bool unitTest1() {
+        bool isSuccessful = true;
+
+        Card card = Card("John Doe", 7, 89);
+
+        check(
+            isSuccessful,
+            card.getCardHolderName() ==
+            "John Doe"
+        );
+
+        check(
+            isSuccessful,
+            card.getCardNumber() == 1
+        );
+
+        check(
+            isSuccessful,
+            card.getEuroCents() == 89
+        );
+
+        check(
+            isSuccessful,
+            card.getEuros() == 7
+        );
+
+        check(
+            isSuccessful,
+            card.getInstanceCount() == 1
+        );
+
+        check(
+            isSuccessful,
+            card.getTotalCreatedCount() == 1
+        );
+
+        check(
+            isSuccessful,
+            card.toString() ==
+            "Card number: 1\n"
+            "Card holder: John Doe\n"
+            "Balance: 7.89€\n"
+        );
+
+        return isSuccessful;
+    }
+};
+
 int main(int argc, char *argv[]) {
+    Tests testClass = Tests(true);
+
+    testClass.runTests(std::cout);
+
     return 0;
 }
