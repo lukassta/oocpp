@@ -5,10 +5,11 @@
 
 ## Usage
 To start the project run:
+
 #### Linux
 In project directory
 ```bash
 cmake ./CMakeLists.txt
 make
-./Card
+./card.out
 ```
