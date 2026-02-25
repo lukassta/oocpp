@@ -109,6 +109,7 @@ public:
         this->testFunctionVector.push_back(unitTest1);
         this->testFunctionVector.push_back(unitTest2);
         this->testFunctionVector.push_back(unitTest3);
+        this->testFunctionVector.push_back(unitTest4);
     }
 
     bool runTests (std::ostream& oStrm) {
@@ -289,6 +290,34 @@ private:
             // Got an unexpected exception type
             isSuccessful = false;
         }
+
+        return isSuccessful;
+    }
+
+    static bool unitTest4() {
+        bool isSuccessful = true;
+
+        Card *card1 = new Card("John Doe");
+        Card *card2 = new Card("Bob Doe");
+
+        check(
+            isSuccessful,
+            card1->getCardNumber() == 1
+        );
+
+        check(
+            isSuccessful,
+            card2->getCardNumber() == 2
+        );
+
+        delete card2;
+
+        Card *card3 = new Card("Matt Doe");
+
+        check(
+            isSuccessful,
+            card3->getCardNumber() == 3
+        );
 
         return isSuccessful;
     }
