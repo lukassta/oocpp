@@ -24,6 +24,14 @@ public:
         this->instanceCount -= 1;
     }
 
+    static int getInstanceCount() {
+        return instanceCount;
+    }
+
+    static int getTotalCreatedCount() {
+        return totalCreatedCount;
+    }
+
     static void resetState() {
         instanceCount = 0;
         totalCreatedCount = 0;
@@ -43,14 +51,6 @@ public:
 
     int getEuros() {
         return this->euros;
-    }
-
-    int getInstanceCount() {
-        return this->instanceCount;
-    }
-
-    int getTotalCreatedCount() {
-        return this->totalCreatedCount;
     }
 
     void setEuroCents(int newEuroCents) {
@@ -110,6 +110,7 @@ public:
         this->testFunctionVector.push_back(unitTest2);
         this->testFunctionVector.push_back(unitTest3);
         this->testFunctionVector.push_back(unitTest4);
+        this->testFunctionVector.push_back(unitTest5);
     }
 
     bool runTests (std::ostream& oStrm) {
@@ -317,6 +318,77 @@ private:
         check(
             isSuccessful,
             card3->getCardNumber() == 3
+        );
+
+        return isSuccessful;
+    }
+
+    static bool unitTest5() {
+        bool isSuccessful = true;
+
+        check(
+            isSuccessful,
+            Card::getInstanceCount() == 0
+        );
+        check(
+            isSuccessful,
+            Card::getTotalCreatedCount() == 0
+        );
+
+        Card *card1 = new Card("John Doe");
+
+        check(
+            isSuccessful,
+            Card::getInstanceCount() == 1
+        );
+        check(
+            isSuccessful,
+            Card::getTotalCreatedCount() == 1
+        );
+
+        Card *card2 = new Card("Bob Doe");
+
+        check(
+            isSuccessful,
+            Card::getInstanceCount() == 2
+        );
+        check(
+            isSuccessful,
+            Card::getTotalCreatedCount() == 2
+        );
+
+        delete card1;
+
+        check(
+            isSuccessful,
+            Card::getInstanceCount() == 1
+        );
+        check(
+            isSuccessful,
+            Card::getTotalCreatedCount() == 2
+        );
+
+        Card *card3 = new Card("Matt Doe");
+
+        check(
+            isSuccessful,
+            Card::getInstanceCount() == 2
+        );
+        check(
+            isSuccessful,
+            Card::getTotalCreatedCount() == 3
+        );
+
+        delete card2;
+        delete card3;
+
+        check(
+            isSuccessful,
+            Card::getInstanceCount() == 0
+        );
+        check(
+            isSuccessful,
+            Card::getTotalCreatedCount() == 3
         );
 
         return isSuccessful;
