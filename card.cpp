@@ -24,17 +24,27 @@ public:
         this->instanceCount -= 1;
     }
 
+private:
+    static int instanceCount;
+    static int totalCreatedCount;
+
+    std::string cardHolderName;
+    const int cardNumber;
+    int euroCents;
+    int euros;
+
+public:
+    static void resetState() {
+        instanceCount = 0;
+        totalCreatedCount = 0;
+    }
+
     static int getInstanceCount() {
         return instanceCount;
     }
 
     static int getTotalCreatedCount() {
         return totalCreatedCount;
-    }
-
-    static void resetState() {
-        instanceCount = 0;
-        totalCreatedCount = 0;
     }
 
     const std::string getCardHolderName() {
@@ -81,14 +91,6 @@ public:
     }
 
 private:
-    static int instanceCount;
-    static int totalCreatedCount;
-
-    std::string cardHolderName;
-    const int cardNumber;
-    int euroCents;
-    int euros;
-
     int generateCardNumber() {
         return getTotalCreatedCount() + 1;
     }
