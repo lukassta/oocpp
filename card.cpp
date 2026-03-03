@@ -15,12 +15,14 @@ private:
 
 public:
     Card(std::string cardHolderName)
-        : Card(cardHolderName, 0, 0) {
+        : Card(cardHolderName, 0, 0)
+    {
     }
 
-    Card(std::string cardHolderName, int euros, int cents) 
+    Card(std::string cardHolderName, int euros, int cents)
         :cardHolderName(cardHolderName),
-        cardNumber(generateCardNumber()) {
+        cardNumber(generateCardNumber())
+    {
         setEuroCents(cents);
         setEuros(euros);
 
