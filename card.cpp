@@ -24,12 +24,12 @@ public:
         setEuroCents(cents);
         setEuros(euros);
 
-        this->totalCreatedCount += 1;
-        this->instanceCount += 1;
+        ++this->totalCreatedCount;
+        ++this->instanceCount;
     }
 
     ~Card() {
-        this->instanceCount -= 1;
+        --this->instanceCount;
     }
 
     static void resetState() {
