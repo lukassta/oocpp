@@ -394,9 +394,16 @@ private:
 };
 
 int main(int argc, char *argv[]) {
-    Tests testClass = Tests(true);
+    try {
+        Tests testClass = Tests(true);
 
-    testClass.runTests(std::cout);
+        testClass.runTests(std::cout);
+    }
+    catch (...) {
+        std::cout << "An exception arose inside main function.\n";
+
+        return 1;
+    }
 
     return 0;
 }
