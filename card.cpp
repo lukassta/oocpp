@@ -64,22 +64,21 @@ public:
     }
 
     void setEuroCents(int newEuroCents) {
-        if (newEuroCents < 0) {
-            throw std::invalid_argument("Can not set euro cents to an integer smaller than 0.");
+        if (0 <= newEuroCents && newEuroCents <= 99) {
+            this->euroCents = newEuroCents;
         }
-        else if (99 < newEuroCents) {
-            throw std::invalid_argument("Can not set euro cents to an integer larger than 99.");
+        else {
+            throw std::invalid_argument("Euro cents must be an integer between 0 and 99.");
         }
-
-        this->euroCents = newEuroCents;
     }
 
     void setEuros(int newEuros) {
-        if (newEuros < 0) {
-            throw std::invalid_argument("Can not set euros to an integer larger than 99.");
+        if (0 <= newEuros) {
+            this->euros = newEuros;
         }
-
-        this->euros = newEuros;
+        else {
+            throw std::invalid_argument("Euros must be an integer larger than 0.");
+        }
     }
 
     std::string toString() {
