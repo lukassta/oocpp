@@ -4,6 +4,15 @@
 #include <vector>
 
 class Card {
+private:
+    static int instanceCount;
+    static int totalCreatedCount;
+
+    const std::string cardHolderName;
+    const int cardNumber;
+    int euroCents;
+    int euros;
+
 public:
     Card(std::string cardHolderName)
         : Card(cardHolderName, 0, 0) {
@@ -23,16 +32,6 @@ public:
         this->instanceCount -= 1;
     }
 
-private:
-    static int instanceCount;
-    static int totalCreatedCount;
-
-    const std::string cardHolderName;
-    const int cardNumber;
-    int euroCents;
-    int euros;
-
-public:
     static void resetState() {
         instanceCount = 0;
         totalCreatedCount = 0;
