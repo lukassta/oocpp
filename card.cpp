@@ -69,11 +69,9 @@ public:
         }
     }
 
-    std::string toString() {
-        std::stringstream ss;
-        ss << this->getCardNumber() << " " << this->getCardHolderName() << " ";
-        ss << this->euros << "." << this->euroCents << "€";
-        return ss.str();
+    void toString() {
+        std::cout << this->getCardNumber() << " " << this->getCardHolderName() << " ";
+        std::cout << this->euros << "." << this->euroCents << "€";
     }
 
 private:
@@ -168,12 +166,6 @@ private:
         check(
             isSuccessful,
             Card::getTotalCreatedCount() == 1
-        );
-
-        check(
-            isSuccessful,
-            card.toString() ==
-            "1 John Doe 7.89€"
         );
 
         return isSuccessful;
