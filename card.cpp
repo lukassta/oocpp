@@ -11,10 +11,11 @@ private:
 
     const std::string cardHolderName;
     const int cardNumber;
+
+public:
     int euroCents;
     int euros;
 
-public:
     Card(std::string cardHolderName) : Card(cardHolderName, 0, 0) {
     }
 
@@ -50,14 +51,6 @@ public:
         return this->cardNumber;
     }
 
-    int getEuroCents() {
-        return this->euroCents;
-    }
-
-    int getEuros() {
-        return this->euros;
-    }
-
     void setEuroCents(int newEuroCents) {
         if (0 <= newEuroCents && newEuroCents <= 99) {
             this->euroCents = newEuroCents;
@@ -79,7 +72,7 @@ public:
     std::string toString() {
         std::stringstream ss;
         ss << this->getCardNumber() << " " << this->getCardHolderName() << " ";
-        ss << this->getEuros() << "." << this->getEuroCents() << "€";
+        ss << this->euros << "." << this->euroCents << "€";
         return ss.str();
     }
 
@@ -159,12 +152,12 @@ private:
 
         check(
             isSuccessful,
-            card.getEuroCents() == 89
+            card.euroCents == 89
         );
 
         check(
             isSuccessful,
-            card.getEuros() == 7
+            card.euros == 7
         );
 
         check(
@@ -198,7 +191,7 @@ private:
         }
         check(
             isSuccessful,
-            card.getEuroCents() == 89
+            card.euroCents == 89
         );
 
         try {
@@ -208,14 +201,14 @@ private:
         }
         check(
             isSuccessful,
-            card.getEuroCents() == 89
+            card.euroCents == 89
         );
 
 
         card.setEuroCents(50);
         check(
             isSuccessful,
-            card.getEuroCents() == 50
+            card.euroCents == 50
         );
 
         try {
@@ -225,13 +218,13 @@ private:
         }
         check(
             isSuccessful,
-            card.getEuros() == 7
+            card.euros == 7
         );
 
         card.setEuros(10);
         check(
             isSuccessful,
-            card.getEuros() == 10
+            card.euros == 10
         );
 
         return isSuccessful;
