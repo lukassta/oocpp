@@ -70,3 +70,7 @@ Testing/
 
 # enviroment
 .env
+
+
+# prettefier
+*.orig

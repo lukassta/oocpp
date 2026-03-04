@@ -21,7 +21,7 @@ public:
 
     Card(std::string cardHolderName, int euros, int cents)
         :cardHolderName(cardHolderName),
-        cardNumber(generateCardNumber())
+         cardNumber(generateCardNumber())
     {
         setEuroCents(cents);
         setEuros(euros);
@@ -116,7 +116,7 @@ public:
         int succeeded = 0, testCount;
         testCount = testFunctionVector.size();
 
-        for(int i = 0; i < testCount ; i++){
+        for(int i = 0; i < testCount ; i++) {
             Card::resetState();
 
             if (testFunctionVector[i]()) {
