@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -35,7 +36,6 @@ public:
     }
 
     static void resetState() {
-        instanceCount = 0;
         totalCreatedCount = 0;
     }
 
@@ -174,12 +174,12 @@ private:
 
         check(
             isSuccessful,
-            card.getInstanceCount() == 1
+            Card::getInstanceCount() == 1
         );
 
         check(
             isSuccessful,
-            card.getTotalCreatedCount() == 1
+            Card::getTotalCreatedCount() == 1
         );
 
         check(
@@ -317,6 +317,9 @@ private:
             card3->getCardNumber() == 3
         );
 
+        delete card1;
+        delete card3;
+
         return isSuccessful;
     }
 
@@ -403,6 +406,8 @@ int main(int argc, char *argv[]) {
 
         return 1;
     }
+
+    assert (Card::getInstanceCount() == 0);
 
     return 0;
 }
