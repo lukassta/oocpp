@@ -1,6 +1,8 @@
 #ifndef TREE234_H
 #define TREE234_H
 
+#include <string>
+
 namespace Tree234Namespace {
     template<typename T>
     class Node {
@@ -13,6 +15,7 @@ namespace Tree234Namespace {
         Node(T item);
         bool isFull();
         bool isLeaf();
+        std::string toString();
     };
 
     template<typename T>
@@ -29,6 +32,7 @@ namespace Tree234Namespace {
         void insertVal(T item);
         void deleteVal(T item);
         bool containsVal(T item);
+        std::string toString();
     };
 };
 

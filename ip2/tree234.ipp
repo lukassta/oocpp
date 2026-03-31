@@ -1,3 +1,5 @@
+#include <string>
+
 namespace Tree234Namespace { // Tree
     template<typename T>
     Tree234<T>::Tree234()
@@ -26,6 +28,15 @@ namespace Tree234Namespace { // Tree
         //TODO
     }
 
+    template<typename T>
+    std::string Tree234<T>::toString() {
+        if (root == nullptr) {
+            return "()";
+        }
+
+        return root->toString();
+    }
+
     // Node
     template<typename T>
     Node<T>::Node(T item) {
@@ -42,5 +53,10 @@ namespace Tree234Namespace { // Tree
     template<typename T>
     bool Node<T>::isLeaf() {
         return children[0] == nullptr;
+    }
+
+    template<typename T>
+    std::string Node<T>::toString() {
+        return "test";
     }
 }
