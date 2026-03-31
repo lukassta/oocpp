@@ -4,8 +4,11 @@
 #include <stdexcept>
 
 namespace Tree234Namespace {
+
     template<typename T>
-    Node<T>::Node() : itemCount(0) {
+    Node<T>::Node() {
+        itemCount = 0;
+
         for (int i = 0; i < 3; ++i) {
             items[i] = T{};
         }
@@ -16,47 +19,22 @@ namespace Tree234Namespace {
     }
 
     template<typename T>
-    bool Node<T>::isFull() const {
-        return itemCount == 3;
-    }
+    bool Node<T>::contains(T item) const {
+        int i = 0;
 
-    template<typename T>
-    bool Node<T>::isLeaf() const {
-        return children[0] == nullptr;
-    }
-
-    template<typename T>
-    std::string Node<T>::toString() const {
-        std::ostringstream oss;
-
-        oss << "(";
-
-        for (int i = 0; i < itemCount - 1; ++i) {
-            oss << items[i] << " " ;
-        }
-        oss << items[itemCount - 1];
-
-        if (!isLeaf()) {
-            for (int i = 0; i < itemCount; ++i) {
-                    oss << " " << children[i]->toString();
+        while (i < itemCount && items[i] <= item) {
+            if (items[i] == item) {
+                return true;
             }
-            oss << " " << children[itemCount]->toString();
+
+            ++i;
         }
 
-        oss << ")";
-
-        return oss.str();
-    }
-
-    template<typename T>
-    void Node<T>::free() {
-        if (!isLeaf()) {
-            for (int i = 0; i <= itemCount; ++i) {
-                children[i]->free();
-            }
+        if (isLeaf()) {
+            return false;
         }
 
-        delete this;
+        return children[i]->contains(item);
     }
 
     template<typename T>
@@ -82,127 +60,6 @@ namespace Tree234Namespace {
     }
 
     template<typename T>
-    void Node<T>::splitChild(int childIdx) {
-        Node<T>* child;
-        Node<T>* right;
-        T midKey;
-
-        child = children[childIdx];
-        right = new Node<T>();
-
-        right->itemCount = 1;
-        right->items[0] = child->items[2];
-
-        if (!child->isLeaf()) {
-            right->children[0] = child->children[2];
-            right->children[1] = child->children[3];
-            child->children[2] = nullptr;
-            child->children[3] = nullptr;
-        }
-
-        midKey = child->items[1];
-        child->itemCount = 1;
-
-        for (int i = itemCount - 1; i >= childIdx; --i) {
-            items[i + 1] = items[i];
-        }
-
-        for (int i = itemCount; i > childIdx; --i) {
-            children[i + 1] = children[i];
-        }
-
-        items[childIdx] = midKey;
-        children[childIdx + 1] = right;
-        itemCount++;
-    }
-
-    template<typename T>
-    void Node<T>::rotateRight(int idx) {
-        Node<T>* child;
-        Node<T>* leftSib;
-
-        child   = children[idx];
-        leftSib = children[idx - 1];
-
-        for (int k = child->itemCount - 1; k >= 0; --k) {
-            child->items[k + 1] = child->items[k];
-        }
-
-        if (!child->isLeaf()) {
-            for (int k = child->itemCount; k >= 0; --k) {
-                child->children[k + 1] = child->children[k];
-            }
-        }
-
-        child->items[0] = items[idx - 1];
-        child->children[0] = leftSib->children[leftSib->itemCount];
-        child->itemCount++;
-
-        items[idx - 1] = leftSib->items[leftSib->itemCount - 1];
-        leftSib->children[leftSib->itemCount] = nullptr;
-        leftSib->itemCount--;
-    }
-
-    template<typename T>
-    void Node<T>::rotateLeft(int idx) {
-        Node<T>* child;
-        Node<T>* rightSib;
-
-        child = children[idx];
-        rightSib = children[idx + 1];
-
-        child->items[child->itemCount] = items[idx];
-        child->children[child->itemCount + 1] = rightSib->children[0];
-        child->itemCount++;
-
-        items[idx] = rightSib->items[0];
-
-        for (int k = 0; k < rightSib->itemCount - 1; ++k) {
-            rightSib->items[k] = rightSib->items[k + 1];
-            rightSib->children[k] = rightSib->children[k + 1];
-        }
-
-        rightSib->children[rightSib->itemCount - 1] = rightSib->children[rightSib->itemCount];
-        rightSib->children[rightSib->itemCount] = nullptr;
-        rightSib->itemCount--;
-    }
-
-    template<typename T>
-    void Node<T>::mergeChildren(int idx) {
-        Node<T>* left;
-        Node<T>* right;
-        int base;
-
-        left = children[idx];
-        right = children[idx + 1];
-
-        left->items[left->itemCount] = items[idx];
-        base = left->itemCount + 1;
-
-        for (int k = 0; k < right->itemCount; ++k) {
-            left->items[base + k] = right->items[k];
-        }
-
-        if (!right->isLeaf()) {
-            for (int k = 0; k <= right->itemCount; ++k) {
-                left->children[base + k] = right->children[k];
-            }
-        }
-
-        left->itemCount = base + right->itemCount;
-
-        for (int k = idx; k < itemCount - 1; ++k) {
-            items[k] = items[k + 1];
-            children[k + 1] = children[k + 2];
-        }
-
-        children[itemCount] = nullptr;
-        itemCount--;
-
-        delete right;
-    }
-
-    template<typename T>
     void Node<T>::fixChild(int idx) {
         bool hasLeft;
         bool hasRight;
@@ -222,6 +79,17 @@ namespace Tree234Namespace {
         else {
             mergeChildren(idx - 1);
         }
+    }
+
+    template<typename T>
+    void Node<T>::free() {
+        if (!isLeaf()) {
+            for (int i = 0; i <= itemCount; ++i) {
+                children[i]->free();
+            }
+        }
+
+        delete this;
     }
 
     template<typename T>
@@ -258,22 +126,48 @@ namespace Tree234Namespace {
     }
 
     template<typename T>
-    bool Node<T>::contains(T item) const {
-        int i = 0;
+    bool Node<T>::isFull() const {
+        return itemCount == 3;
+    }
 
-        while (i < itemCount && items[i] <= item) {
-            if (items[i] == item) {
-                return true;
+    template<typename T>
+    bool Node<T>::isLeaf() const {
+        return children[0] == nullptr;
+    }
+
+    template<typename T>
+    void Node<T>::mergeChildren(int idx) {
+        Node<T>* left;
+        Node<T>* right;
+        int base;
+
+        left = children[idx];
+        right = children[idx + 1];
+
+        left->items[left->itemCount] = items[idx];
+        base = left->itemCount + 1;
+
+        for (int k = 0; k < right->itemCount; ++k) {
+            left->items[base + k] = right->items[k];
+        }
+
+        if (!right->isLeaf()) {
+            for (int k = 0; k <= right->itemCount; ++k) {
+                left->children[base + k] = right->children[k];
             }
-
-            ++i;
         }
 
-        if (isLeaf()) {
-            return false;
+        left->itemCount = base + right->itemCount;
+
+        for (int k = idx; k < itemCount - 1; ++k) {
+            items[k] = items[k + 1];
+            children[k + 1] = children[k + 2];
         }
 
-        return children[i]->contains(item);
+        children[itemCount] = nullptr;
+        itemCount--;
+
+        delete right;
     }
 
     template<typename T>
@@ -330,6 +224,115 @@ namespace Tree234Namespace {
     }
 
     template<typename T>
+    void Node<T>::rotateRight(int idx) {
+        Node<T>* child;
+        Node<T>* leftSib;
+
+        child   = children[idx];
+        leftSib = children[idx - 1];
+
+        for (int k = child->itemCount - 1; k >= 0; --k) {
+            child->items[k + 1] = child->items[k];
+        }
+
+        if (!child->isLeaf()) {
+            for (int k = child->itemCount; k >= 0; --k) {
+                child->children[k + 1] = child->children[k];
+            }
+        }
+
+        child->items[0] = items[idx - 1];
+        child->children[0] = leftSib->children[leftSib->itemCount];
+        child->itemCount++;
+
+        items[idx - 1] = leftSib->items[leftSib->itemCount - 1];
+        leftSib->children[leftSib->itemCount] = nullptr;
+        leftSib->itemCount--;
+    }
+
+    template<typename T>
+    void Node<T>::rotateLeft(int idx) {
+        Node<T>* child;
+        Node<T>* rightSib;
+
+        child = children[idx];
+        rightSib = children[idx + 1];
+
+        child->items[child->itemCount] = items[idx];
+        child->children[child->itemCount + 1] = rightSib->children[0];
+        child->itemCount++;
+
+        items[idx] = rightSib->items[0];
+
+        for (int k = 0; k < rightSib->itemCount - 1; ++k) {
+            rightSib->items[k] = rightSib->items[k + 1];
+            rightSib->children[k] = rightSib->children[k + 1];
+        }
+
+        rightSib->children[rightSib->itemCount - 1] = rightSib->children[rightSib->itemCount];
+        rightSib->children[rightSib->itemCount] = nullptr;
+        rightSib->itemCount--;
+    }
+
+    template<typename T>
+    void Node<T>::splitChild(int childIdx) {
+        Node<T>* child;
+        Node<T>* right;
+        T midKey;
+
+        child = children[childIdx];
+        right = new Node<T>();
+
+        right->itemCount = 1;
+        right->items[0] = child->items[2];
+
+        if (!child->isLeaf()) {
+            right->children[0] = child->children[2];
+            right->children[1] = child->children[3];
+            child->children[2] = nullptr;
+            child->children[3] = nullptr;
+        }
+
+        midKey = child->items[1];
+        child->itemCount = 1;
+
+        for (int i = itemCount - 1; i >= childIdx; --i) {
+            items[i + 1] = items[i];
+        }
+
+        for (int i = itemCount; i > childIdx; --i) {
+            children[i + 1] = children[i];
+        }
+
+        items[childIdx] = midKey;
+        children[childIdx + 1] = right;
+        itemCount++;
+    }
+
+    template<typename T>
+    std::string Node<T>::toString() const {
+        std::ostringstream oss;
+
+        oss << "(";
+
+        for (int i = 0; i < itemCount - 1; ++i) {
+            oss << items[i] << " " ;
+        }
+        oss << items[itemCount - 1];
+
+        if (!isLeaf()) {
+            for (int i = 0; i < itemCount; ++i) {
+                    oss << " " << children[i]->toString();
+            }
+            oss << " " << children[itemCount]->toString();
+        }
+
+        oss << ")";
+
+        return oss.str();
+    }
+
+    template<typename T>
     Tree234<T>::Tree234() : root(nullptr), count(0) {}
 
     template<typename T>
@@ -337,6 +340,25 @@ namespace Tree234Namespace {
         if (root != nullptr) {
             root->free();
         }
+    }
+
+    template<typename T>
+    void Tree234<T>::clear() {
+        if (root != nullptr) {
+            root->free();
+        }
+
+        root  = nullptr;
+        count = 0;
+    }
+
+    template<typename T>
+    bool Tree234<T>::contains(T item) const {
+        if (root == nullptr) {
+            return false;
+        }
+
+        return root->contains(item);
     }
 
     template<typename T>
@@ -386,25 +408,6 @@ namespace Tree234Namespace {
 
             delete oldRoot;
         }
-    }
-
-    template<typename T>
-    bool Tree234<T>::contains(T item) const {
-        if (root == nullptr) {
-            return false;
-        }
-
-        return root->contains(item);
-    }
-
-    template<typename T>
-    void Tree234<T>::clear() {
-        if (root != nullptr) {
-            root->free();
-        }
-
-        root  = nullptr;
-        count = 0;
     }
 
     template<typename T>

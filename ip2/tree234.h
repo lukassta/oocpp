@@ -14,44 +14,42 @@ namespace Tree234Namespace {
     public:
         Node();
 
+        bool contains(T item) const;
+        void fixChild(int idx);
+        void free();
+        void insertNonFull(T item);
         bool isFull() const;
         bool isLeaf() const;
-
-        void splitChild(int childIdx);
-        void insertNonFull(T item);
-        bool contains(T item) const;
         void removeRec(T item);
-        void fixChild(int idx);
-
+        void splitChild(int childIdx);
         std::string toString() const;
-        void free();
 
     private:
-        void rotateRight(int idx);
-        void rotateLeft(int idx);
-        void mergeChildren(int idx);
         T findMax() const;
         T findMin() const;
+        void mergeChildren(int idx);
+        void rotateLeft(int idx);
+        void rotateRight(int idx);
 
         template<typename U> friend class Tree234;
     };
 
     template<typename T>
     class Tree234 {
+    private:
+        Node<T>* root;
+        int count;
+
     public:
         Tree234();
         ~Tree234();
 
+        void clear();
+        bool contains(T item) const;
         void insert(T item);
         void remove(T item);
-        bool contains(T item) const;
-        void clear();
         int size() const;
         std::string toString() const;
-
-    private:
-        Node<T>* root;
-        int count;
     };
 }
 
