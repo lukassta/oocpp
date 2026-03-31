@@ -11,17 +11,17 @@ namespace Tree234Namespace { // Tree
     }
 
     template<typename T>
-    void Tree234<T>::insert_val(T item) {
+    void Tree234<T>::insertVal(T item) {
         //TODO
     }
 
     template<typename T>
-    void Tree234<T>::delete_val(T item) {
+    void Tree234<T>::deleteVal(T item) {
         //TODO
     }
 
     template<typename T>
-    bool Tree234<T>::contains_val(T item) {
+    bool Tree234<T>::containsVal(T item) {
         return true;
         //TODO
     }
@@ -35,12 +35,12 @@ namespace Tree234Namespace { // Tree
     }
 
     template<typename T>
-    bool Node<T>::is_full() {
+    bool Node<T>::isFull() {
         return count == 3;
     }
 
     template<typename T>
-    bool Node<T>::is_leaf() {
+    bool Node<T>::isLeaf() {
         return children[0] == nullptr;
     }
 }

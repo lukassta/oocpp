@@ -11,8 +11,8 @@ namespace Tree234Namespace {
 
     public:
         Node(T item);
-        bool is_full();
-        bool is_leaf();
+        bool isFull();
+        bool isLeaf();
     };
 
     template<typename T>
@@ -26,9 +26,9 @@ namespace Tree234Namespace {
     public:
         Tree234();
         ~Tree234();
-        void insert_val(T item);
-        void delete_val(T item);
-        bool contains_val(T item);
+        void insertVal(T item);
+        void deleteVal(T item);
+        bool containsVal(T item);
     };
 };
 
