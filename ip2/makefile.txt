@@ -1,8 +1,8 @@
 CXX      = g++
 CXXFLAGS = --std=c++17 -Wall -Wextra
 HEADERS  = tree234.h tree234.ipp
-DEMO_BIN = demo
-TEST_BIN = run_tests
+DEMO_BIN = demo.out
+TEST_BIN = test.out
 
 module: tree234_module.o
 
@@ -12,15 +12,11 @@ tree234_module_stub.cpp:
 tree234_module.o: tree234_module_stub.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) -c tree234_module_stub.cpp -o tree234_module.o
 
-demo: $(DEMO_BIN)
-
 $(DEMO_BIN): demo.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) demo.cpp -o $(DEMO_BIN)
 
 run_demo: $(DEMO_BIN)
 	./$(DEMO_BIN)
-
-test: $(TEST_BIN)
 
 $(TEST_BIN): test.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) test.cpp -o $(TEST_BIN)
@@ -31,7 +27,7 @@ run_test: $(TEST_BIN)
 clean:
 	rm -f $(DEMO_BIN) $(TEST_BIN) tree234_module.o tree234_module_stub.cpp log.txt
 
-rebuild: clean module demo test
+rebuild: clean module $(DEMO_BIN) $(TEST_BIN)
 
 fix:
 	clang-tidy demo.cpp test.cpp --checks='bugprone-*' --fix --fix-errors --header-filter='.*' -- $(CXXFLAGS)
