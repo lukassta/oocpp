@@ -32,3 +32,7 @@ clean:
 	rm -f $(DEMO_BIN) $(TEST_BIN) tree234_module.o tree234_module_stub.cpp log.txt
 
 rebuild: clean module demo test
+
+fix:
+	clang-format -style=llvm -i $(HEADERS)
+	clang-tidy $(HEADERS) -checks='*' --warnings-as-errors='*' -fix -fix-errors -- -std=c++17
