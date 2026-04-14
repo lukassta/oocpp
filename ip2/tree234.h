@@ -1,0 +1,6 @@
+#ifndef HOME_JOHN_GIT_OOCPP_IP2_TREE234_H
+#define HOME_JOHN_GIT_OOCPP_IP2_TREE234_H
+
+#include "tree234.ipp"
+
+#endif  // HOME_JOHN_GIT_OOCPP_IP2_TREE234_H
