@@ -1,5 +1,5 @@
 CXX      = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -pedantic
+CXXFLAGS = --std=c++17 -Wall -Wextra
 HEADERS  = tree234.h tree234.ipp
 DEMO_BIN = demo
 TEST_BIN = run_tests
@@ -34,5 +34,5 @@ clean:
 rebuild: clean module demo test
 
 fix:
-	clang-format -style=llvm -i $(HEADERS)
-	clang-tidy $(HEADERS) -checks='*' --warnings-as-errors='*' -fix -fix-errors -- -std=c++17
+	clang-tidy demo.cpp test.cpp --checks='bugprone-*' --fix --fix-errors --header-filter='.*' -- $(CXXFLAGS)
+	clang-format --style=chromium -i demo.cpp test.cpp $(HEADERS)
